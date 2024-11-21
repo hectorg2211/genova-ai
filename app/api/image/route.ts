@@ -20,7 +20,6 @@ export async function POST(req: Request) {
       n: parseInt(amount, 10),
       size: resolution,
     })
-    console.log(response.data)
     return new NextResponse(JSON.stringify(response.data), { status: 200 })
   } catch (error) {
     console.log('Image error', error)
