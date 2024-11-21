@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import * as z from 'zod'
 import axios from 'axios'
 import Heading from '@/components/heading'
-import { Image } from 'lucide-react'
+import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { amountOptions, formSchema, resolutionOptions } from './constants'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,6 +15,8 @@ import { useRouter } from 'next/navigation'
 import Empty from '@/components/empty'
 import Loader from '@/components/loader'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardFooter } from '@/components/ui/card'
+import { Download, ImageIcon } from 'lucide-react'
 
 const ImagePage = () => {
   const router = useRouter()
@@ -35,6 +37,7 @@ const ImagePage = () => {
     try {
       setImages([])
       const response = await axios.post('/api/image', values)
+      console.log(response.data)
       const urls = response.data.map((image: { url: string }) => image.url)
       setImages(urls)
       form.reset()
@@ -52,7 +55,7 @@ const ImagePage = () => {
       <Heading
         title='Image'
         description='Turn your dreams into reality'
-        icon={Image}
+        icon={ImageIcon}
         iconColor='text-emerald-500'
         bgColor='bg-emerald-500/10'
       />
@@ -154,7 +157,22 @@ const ImagePage = () => {
 
           {images.length === 0 && !isLoading && <Empty label='No images generated.' />}
 
-          <div>Images will be rendered here</div>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+            {images.map(url => (
+              <Card key={url} className='rounded-lg overflow-hidden'>
+                <div className='relative aspect-square'>
+                  <Image src={url} alt='Image' fill />
+                </div>
+
+                <CardFooter className='p-2'>
+                  <Button variant={'secondary'} className='w-full' onClick={() => window.open(url, '_blank')}>
+                    <Download className='h-4 w-4 mr-2' />
+                    Download
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>
