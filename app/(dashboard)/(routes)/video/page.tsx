@@ -31,7 +31,7 @@ const VideoPage = () => {
     try {
       setVideo(undefined)
       const response = await axios.post('/api/video', values)
-      setVideo(response.data[0])
+      setVideo(response.data.video)
       form.reset()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
