@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import FreeCounter from './free-counter'
 
 const montserrat = Montserrat({ weight: '600', subsets: ['latin'] })
 
@@ -55,7 +56,11 @@ const routes = [
   },
 ]
 
-const Sidebar = () => {
+interface SidebarProps {
+  apiLimitCount: number
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ apiLimitCount = 0 }) => {
   const pathname = usePathname()
 
   return (
@@ -87,6 +92,8 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
+
+      <FreeCounter count={apiLimitCount} />
     </div>
   )
 }
