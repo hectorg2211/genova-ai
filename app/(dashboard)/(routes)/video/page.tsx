@@ -14,8 +14,10 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import Empty from '@/components/empty'
 import Loader from '@/components/loader'
+import { useProModal } from '@/hooks/use-pro-modal'
 
 const VideoPage = () => {
+  const proModal = useProModal()
   const [video, setVideo] = useState<string>()
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,8 +37,11 @@ const VideoPage = () => {
       form.reset()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // TODO: Open pro modal
-      console.log(error)
+      if (error?.response?.status === 403) {
+        proModal.onOpen()
+      } else {
+        console.log(error)
+      }
     } finally {
       router.refresh()
     }

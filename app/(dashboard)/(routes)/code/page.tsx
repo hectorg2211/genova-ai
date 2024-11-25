@@ -19,9 +19,11 @@ import Loader from '@/components/loader'
 import { cn } from '@/lib/utils'
 import UserAvatar from '@/components/user-avatar'
 import BotAvatar from '@/components/bot-avatar'
+import { useProModal } from '@/hooks/use-pro-modal'
 
 const CodePage = () => {
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
+  const proModal = useProModal()
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,8 +47,11 @@ const CodePage = () => {
       form.reset()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // TODO: Open pro modal
-      console.log(error)
+      if (error?.response?.status === 403) {
+        proModal.onOpen()
+      } else {
+        console.log(error)
+      }
     } finally {
       router.refresh()
     }

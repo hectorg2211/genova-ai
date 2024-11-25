@@ -17,8 +17,10 @@ import Loader from '@/components/loader'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardFooter } from '@/components/ui/card'
 import { Download, ImageIcon } from 'lucide-react'
+import { useProModal } from '@/hooks/use-pro-modal'
 
 const ImagePage = () => {
+  const proModal = useProModal()
   const router = useRouter()
   const [images, setImages] = useState<string[]>([])
 
@@ -42,8 +44,11 @@ const ImagePage = () => {
       form.reset()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // TODO: Open pro modal
-      console.log(error)
+      if (error?.response?.status === 403) {
+        proModal.onOpen()
+      } else {
+        console.log(error)
+      }
     } finally {
       router.refresh()
     }
