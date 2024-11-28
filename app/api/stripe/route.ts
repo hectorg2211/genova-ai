@@ -10,6 +10,7 @@ const settingsUrl = absoluteUrl('/settings')
 export async function GET() {
   try {
     const { userId } = await auth()
+
     const user = await currentUser()
 
     if (!userId || !user) return new NextResponse('Unauthorized', { status: 401 })
@@ -53,9 +54,11 @@ export async function GET() {
         },
       ],
       metadata: {
-        userId,
+        user_id: userId,
       },
     })
+
+    console.log(stripeSession)
 
     return new NextResponse(JSON.stringify({ url: stripeSession.url }), { status: 200 })
   } catch (error) {
