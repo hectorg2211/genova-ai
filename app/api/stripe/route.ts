@@ -54,7 +54,12 @@ export async function GET() {
         },
       ],
       metadata: {
-        user_id: userId,
+        userId,
+      },
+      subscription_data: {
+        metadata: {
+          userId,
+        },
       },
     })
 

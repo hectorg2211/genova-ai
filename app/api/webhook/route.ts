@@ -44,7 +44,8 @@ export async function POST(req: Request) {
 
     await prismadb.userSubscription.update({
       where: {
-        userId: session?.metadata?.userId,
+        // @ts-expect-error subscription does exist
+        userId: session?.subscription_details?.metadata?.userId,
       },
       data: {
         stripePriceId: subscription?.items.data[0].price.id,
