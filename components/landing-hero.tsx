@@ -6,7 +6,7 @@ import TypewriterComponent from 'typewriter-effect'
 import { Button } from '@/components/ui/button'
 
 const LandingHero = () => {
-  const { isSignedin } = useAuth()
+  const { isSignedIn } = useAuth()
 
   return (
     <div className='text-white font-bold py-20 text-center space-y-6'>
@@ -25,9 +25,9 @@ const LandingHero = () => {
 
       <div className='text-sm md:text-sm font-normal text-zinc-400'>Create content using AI 10x faster</div>
       <div>
-        <Link href={isSignedin ? '/dashboard' : '/sign-up'}>
+        <Link href={isSignedIn ? '/dashboard' : '/sign-up'}>
           <Button variant='premium' className='md:text-lg p-4 md:p-6 rounded-full font-medium'>
-            {isSignedin ? 'Dashboard' : 'Start Generating Gor Free'}
+            {isSignedIn ? 'Dashboard' : 'Start Generating Gor Free'}
           </Button>
         </Link>
       </div>
