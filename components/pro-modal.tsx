@@ -15,6 +15,7 @@ import { Check, Code, ImageIcon, MessageSquare, Music, VideoIcon, Zap } from 'lu
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import toast from 'react-hot-toast'
 
 const tools = [
   {
@@ -59,7 +60,8 @@ const ProModal = () => {
       const response = await axios.get('/api/stripe')
       window.location.href = response.data.url
     } catch (error) {
-      console.log(error, 'Stripe client error')
+      console.log(error)
+      toast.error('Something went wrong')
     } finally {
       setLoading(false)
     }
